@@ -29,7 +29,7 @@ public class receiverSide extends testCaseBase {
 	public void receiversideCheck() throws Exception {
 		String Doc="receiverSide";
 		login.SigninNSUI("jeevitha.patnana@nimbleaccounting.com","Nikki@1338");
-		login.VerifyLoginSucess();
+		login.VerifyHomePage();
 		documentsScenarios.DocScenario();
 		documentsScenarios.Blankloginaccount(Doc);
 		addrecipients.personalOutlook();
@@ -44,7 +44,7 @@ public class receiverSide extends testCaseBase {
 	@Test
 	public void receiversideSignatureCheck() throws Exception {
 //		login.SigninNSUI();
-//		login.VerifyLoginSucess();
+//		login.VerifyHomePage();
 //		documentsScenarios.DocScenario();
 //		documentsScenarios.Blankloginaccount(Doc);
 //		addrecipients.personalOutlook();

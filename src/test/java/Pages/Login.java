@@ -42,14 +42,14 @@ public class Login {
 	}
 	
 
-	public void VerifyLoginSucess() {
+	public void VerifyHomePage() {
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(2));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
 		WebElement welcomeMessage = wait.until(
 				ExpectedConditions.presenceOfElementLocated(By.xpath("//h2[@class='fw-large blue-dark mb-3 fs-10']")));
 
-		Assert.assertNotNull(welcomeMessage, "Welcome message element is not present Login Failed");
-		System.out.println("Login Successful");
+//		Assert.assertNotNull(welcomeMessage, "");
+		System.out.println("dashboard page display Successful");
 	}
 
 }

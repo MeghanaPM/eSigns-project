@@ -22,26 +22,26 @@ public class TestCases_Jeevitha extends testCaseBase {
 
 	public void verifyloginwithValidCredentials() throws InterruptedException {
 		login.Signin();
-		login.VerifyLoginSucess();
+		login.VerifyHomePage();
 
 	}
 @Test
 	public void Document() throws InterruptedException {
 	login.Signin();
-	login.VerifyLoginSucess();
+	login.VerifyHomePage();
 
 	}
 @Test
 public void Upload() throws Exception {
 	login.Signin();
-	login.VerifyLoginSucess();
+	login.VerifyHomePage();
 
 }
 
 @Test
 public void ContactsModule() throws Exception {
 	login.Signin();
-	login.VerifyLoginSucess();
+	login.VerifyHomePage();
 	contacts.contactsclick();
 	contacts.contactssearch();
 	//contacts.addcontacts();

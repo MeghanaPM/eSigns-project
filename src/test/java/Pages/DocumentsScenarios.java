@@ -2,6 +2,8 @@ package Pages;
 
 import java.io.File;
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.Random;
 //import java.time.Duration;
 import java.util.Set;
 import org.openqa.selenium.By;
@@ -16,7 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class DocumentsScenarios {
-	static WebDriver driver;
+	public static WebDriver driver;
 
 	public DocumentsScenarios(WebDriver driver) {
 
@@ -41,7 +43,18 @@ public class DocumentsScenarios {
 		js.executeScript("arguments[0].click();", element);
 
 	}
-
+	public void Loadingmask() throws Exception {
+		Thread.sleep(10000);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
+		By overlayLocator = By.xpath("//div[@class='el-loading-mask is-fullscreen']");
+ 
+		try {
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(overlayLocator));
+		} catch (Exception e) {
+ 
+		}
+ 
+	}
 	public void windowHandle() {
 		Set<String> windowHandles = driver.getWindowHandles();
 		for (String handle : windowHandles) {
@@ -89,6 +102,26 @@ public class DocumentsScenarios {
 		Thread.sleep(10000);
 	}
 
+	public String generateUniqueId() {
+		final int ID_LENGTH = 4;
+		final int MAX_ID = (int) Math.pow(10, ID_LENGTH) - 1;
+		final int MIN_ID = (int) Math.pow(10, ID_LENGTH - 1);
+		Set<Integer> generatedIds = new HashSet<>();
+		Random random = new Random();
+		String prefix = null;
+		if (generatedIds.size() >= (MAX_ID - MIN_ID + 1)) {
+			throw new IllegalStateException("All possible IDs have been generated");
+		}
+
+		int newId;
+		do {
+			newId = random.nextInt((MAX_ID - MIN_ID) + 1) + MIN_ID;
+		} while (generatedIds.contains(newId));
+
+		generatedIds.add(newId);
+		return prefix + newId;
+	}
+
 	public void clickLogout() throws Exception {
 		Thread.sleep(10000);
 		waitEle(By.xpath("(//div[@class=\"icon-text\"])[1]"));
@@ -98,6 +131,7 @@ public class DocumentsScenarios {
 	}
 
 	public void SendDocumentInDocument() throws Exception {
+		Thread.sleep(10000);
 		try {
 			waitEle(By.xpath("//span[normalize-space()=\"Send Document\"]"));
 		} catch (Exception e) {
@@ -193,36 +227,45 @@ public class DocumentsScenarios {
 	}
 
 	public void Recipient(int id, String contactType, String email, String signerType) throws Exception {
-		waitEle(By.xpath("//span[contains(text(),'Add Recipient')]"));
-		System.out.println("Click on Add recipient done Successfully");
-		String xpath = String.format("//div[@id='user_%d']//input[@placeholder='Select contact type']", id);
-		waitEle(By.xpath(xpath));
-		String con = String.format("//div[@x-placement]//ul//li[normalize-space()='%s']", contactType);
-		WebElement ele = driver.findElement(By.xpath(con));
-		JavascriptExecutor executor = (JavascriptExecutor) driver;
-		executor.executeScript("arguments[0].click();", ele);
-		System.out.println("Selected contact type Successfully");
+		try {
+			waitEle(By.xpath("//span[contains(text(),'Add Recipient')]"));
+			System.out.println("Click on Add recipient done Successfully");
+			String xpath = String.format("//div[@id='user_%d']//input[@placeholder='Select contact type']", id);
+			waitEle(By.xpath(xpath));
+			String con = String.format("//div[@x-placement]//ul//li[normalize-space()='%s']", contactType);
+			WebElement ele = driver.findElement(By.xpath(con));
+			JavascriptExecutor executor = (JavascriptExecutor) driver;
+			executor.executeScript("arguments[0].click();", ele);
+			System.out.println("Selected contact type Successfully");
+		} catch (Exception e) {
+
+		}
 		String xpath2 = String.format("//div[@id='user_%d']//input[@placeholder='Search with Email']", id);
 		waitEle(By.xpath(xpath2));
 		Thread.sleep(3000);
 		System.out.println("click on Search with email done Successfully");
-		String xpath3 = String.format("//div[@x-placement]//li[text()=\" %s \"]", email);
+		String xpath3 = String.format("//div[@x-placement]//li[normalize-space()=\"%s\"]", email);
 		waitEle(By.xpath(xpath3));
-		String xpath4 = String.format("//div[@id='user_%d']//input[@placeholder='Select Signer Type']", id);
-		waitEle(By.xpath(xpath4));
-		Thread.sleep(3000);
-		String signertype = String.format("//div[@x-placement]//ul//li[contains(text(), '%s')]", signerType);
-		waitEle(By.xpath(signertype));
-		System.out.println("Selected Recipients Successfully");
+		try {
+			String xpath4 = String.format("//div[@id='user_%d']//input[@placeholder='Select Signer Type']", id);
+			waitEle(By.xpath(xpath4));
+			Thread.sleep(3000);
+			String signertype = String.format("//div[@x-placement]//ul//li[contains(text(), '%s')]", signerType);
+			waitEle(By.xpath(signertype));
+			System.out.println("Selected Recipients Successfully");
+		} catch (Exception e) {
+
+		}
 	}
 
 	public void addContactAtAddrecipient(int id, String contactType, String email, String Fname, String Lname,
 			String signerType) throws Exception {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Add Recipient')]"))).click();
-		}catch(Exception E) {
-			
+			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Add Recipient')]")))
+					.click();
+		} catch (Exception E) {
+
 		}
 		System.out.println("Click on Add recipient done Successfully");
 		String xpath = String.format("//div[@id='user_%d']//input[@placeholder='Select contact type']", id);
@@ -321,16 +364,12 @@ public class DocumentsScenarios {
 	}
 
 	public void clickSubmit() throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
-		Thread.sleep(5000);
-		WebElement element = wait
-				.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[normalize-space()='Send Document']")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+		Javascriptclick(By.xpath("//span[normalize-space()='Send Document']"));
 	}
 
 	public boolean Verifysubmit() {
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(3));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
 		WebElement name = wait
 				.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()=\"Document Sent \"]")));
 		System.out.println("Sent Document Sucessfully");
@@ -456,7 +495,7 @@ public class DocumentsScenarios {
 
 	public void DradAndDropSigAndFullName(int n, int x1, int y1, int x2, int y2) throws Exception {
 
-		Thread.sleep(20000);
+		Thread.sleep(10000);
 		waitEle(By.xpath("//input[@placeholder='Select a Recipient']"));
 		Thread.sleep(5000);
 		String xpath = String.format("//div[@x-placement=\"bottom-start\"]//li[%d]", n);
@@ -480,6 +519,7 @@ public class DocumentsScenarios {
 	public void selectRecipientForDragAndDrop(int n) throws Exception {
 		Thread.sleep(20000);
 		waitEle(By.xpath("//input[@placeholder='Select a Recipient']"));
+		Thread.sleep(5000);
 		String xpath = String.format("//div[@x-placement]//li[%d]", n);
 		Javascriptclick(By.xpath(xpath));
 
@@ -738,8 +778,8 @@ public class DocumentsScenarios {
 		waitEle(By.xpath(TName));
 		Thread.sleep(5000);
 		int i = 1;
-		for (int x = -250; x <= 250; x = x + 250) {
-			for (int y = -80; y <= 210; y = y + 50) {
+		for (int x = -350; x <= 250; x = x + 250) {
+			for (int y = -180; y <= 210; y = y + 50) {
 				if (i >= l) {
 					break;
 				}
@@ -968,11 +1008,11 @@ public class DocumentsScenarios {
 		waitEle(By.xpath("//span[text()=\"Save Changes\"]"));
 	}
 
-	public void Updateafterdocumentcompletionfromsettings(String num) throws Exception {
+	public void Updateafterdocumentcompletionfromsettings(int num) throws Exception {
 
 		Thread.sleep(10000);
 
-		waitEle(By.xpath("//span[@class='el-icon-arrow-down text-white']"));
+		waitEle(By.xpath("//div[text()=\" Meghana PM \"]"));
 
 		Thread.sleep(10000);
 
@@ -987,7 +1027,13 @@ public class DocumentsScenarios {
 
 		waitEle(By.xpath("//a[text()=\"Application Settings\"]"));
 		Thread.sleep(5000);
-		String s = String.format("(//span[@class=\"el-radio__inner\"])[%s]", num);
+		SettingsExpirationAndRemainder(num);
+
+	}
+
+	public void SettingsExpirationAndRemainder(int num) throws Exception {
+		Thread.sleep(20000);
+		String s = String.format("(//span[@class=\"el-radio__inner\"])[%d]", num);
 
 		WebElement checkbox = driver.findElement(By.xpath(s));
 		boolean isChecked = checkbox.isSelected();
@@ -999,18 +1045,18 @@ public class DocumentsScenarios {
 			System.out.println("Checkbox was already checked. No action taken.");
 		}
 
-		waitEle(By.xpath("//button[@class='el-button type-2 el-button--default']"));
+		waitEle(By.xpath("//span[text()=\"Save Changes\"]"));
 	}
 
-	public void FileuploadTwo() throws InterruptedException, Exception {
-		Thread.sleep(5000);
-
-		Runtime.getRuntime()
-				.exec("\"C:\\Users\\meghana.pemma\\OneDrive - Nimble Accounting\\Desktop\\fileupload.exe\"");
-		Thread.sleep(5000);
-
-		System.out.println("Uploaded file successfully");
-	}
+//	public void FileuploadTwo() throws InterruptedException, Exception {
+//		Thread.sleep(5000);
+//
+//		Runtime.getRuntime()
+//				.exec("\"C:\\Users\\meghana.pemma\\OneDrive - Nimble Accounting\\Desktop\\fileupload.exe\"");
+//		Thread.sleep(5000);
+//
+//		System.out.println("Uploaded file successfully");
+//	}
 
 	public void uploadFileWithSendKeys(String Path) throws InterruptedException {
 		Thread.sleep(10000);
@@ -1152,8 +1198,6 @@ public class DocumentsScenarios {
 		waitEle(By.xpath("//canvas[@id='0_canvas_page_2']"));
 
 	}
-
-	
 
 	public void fillEssentialFieldsInDocBeforeSendDoc(int n) throws Exception {
 		Thread.sleep(10000);
@@ -1370,6 +1414,7 @@ public class DocumentsScenarios {
 	}
 
 	public void sendDocument() throws Exception {
+		Thread.sleep(10000);
 		waitEle(By.xpath("//span[text()=\"Send document\"]"));
 
 	}
@@ -1453,13 +1498,13 @@ public class DocumentsScenarios {
 	public void updateWithParentBasicFieldsLoop(String Fieldtype, String SelectTemplate) throws Exception {
 		int n = 1;
 		int i = 1;
+		Thread.sleep(15000);
 		for (int x = -300; x <= 250; x = x + 250) {
 			for (int y = -120; y <= 210; y = y + 50) {
 				if (i >= 20) {
 					break;
 				} else {
 
-					Thread.sleep(15000);
 					Actions actions1 = new Actions(driver);
 
 					WebElement targetElement = driver.findElement(By.xpath("//*[@id=\"svg\"]"));
@@ -1606,20 +1651,7 @@ public class DocumentsScenarios {
 			System.out.println("Overlay not found or not invisible.");
 		}
 
-		By ad = By.xpath("//span[normalize-space()='Templates']");
-
-		try {
-			WebDriverWait hold = new WebDriverWait(driver, Duration.ofMinutes(1));
-			WebElement add = hold.until(ExpectedConditions.elementToBeClickable(ad));
-
-			JavascriptExecutor executor = (JavascriptExecutor) driver;
-			executor.executeScript("arguments[0].click();", add);
-
-		} catch (Exception e) {
-
-			System.out.println("Element not clickable or not found: ");
-		}
-		Thread.sleep(10000);
+		Javascriptclick(By.xpath("//span[normalize-space()='Templates']"));
 
 		WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By
 				.xpath("//button[@class='el-button create-btn px-2 ml-2 p-05 el-button--primary el-button--medium']")));
@@ -1674,13 +1706,16 @@ public class DocumentsScenarios {
 		waitEle(By.xpath("//span[normalize-space()='Continue']"));
 
 	}
+
 	public void saveTemplate() throws Exception {
 		waitEle(By.xpath("//span[text()=\"Save Template\"]"));
-		
+
 	}
+
 	public void back() throws Exception {
 		waitEle(By.xpath("//i[@class=\"el-icon-back\"]"));
 	}
+
 	public static void highlight(WebElement element) {
 
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
@@ -1688,7 +1723,5 @@ public class DocumentsScenarios {
 		jsExecutor.executeScript("arguments[0].setAttribute('style', 'border: 2px solid blue;');", element);
 
 	}
-	
 
-	
 }

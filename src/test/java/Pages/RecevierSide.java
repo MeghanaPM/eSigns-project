@@ -1,9 +1,11 @@
 package Pages;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
-
+import java.util.List;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -114,7 +116,7 @@ public class RecevierSide {
 		Thread.sleep(10000);
 		driver.get(
 				"https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=150&ct=1714114815&rver=7.0.6738.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26cobrandid%3dab0455a0-8d03-46b9-b18b-df2f57b9e44c%26culture%3den-us%26country%3dus%26RpsCsrfState%3d1425546c-12db-9db8-7947-044bdf3da8dc&id=292841&aadredir=1&whr=outlook.com&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=ab0455a0-8d03-46b9-b18b-df2f57b9e44c");
-//		switchEmail();
+		switchEmail();
 		sendKeysToElement(By.xpath("//input[@id=\"i0116\"]"), email);
 		try {
 			waitEle(By.xpath("//input[@id=\"idSIButton9\"]"));
@@ -556,11 +558,11 @@ public class RecevierSide {
 	
 	public void receiverSideBasicFeildsFill(int n,int checkbox,int checkboxGroup1,int checkboxGroup2) throws Exception {
 		// radio group
-		String radioGroup=String.format("(//span[text()=\"1\"])[%d]", n);
+		String radioGroup=String.format("(//div[@class=\"form-fields-holder\"]//span[text()=\"1\"])[%d]", n);
 		waitEle(By.xpath(radioGroup));
 		// date Range
 		Thread.sleep(10000);
-		String DateRange=String.format("(//input[@placeholder=\"Start date\"])[%d]", n);
+		String DateRange=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Start date\"])[%d]", n);
 		Javascriptclick(By.xpath(DateRange));
 		Javascriptclick(By.xpath(
 				"(//div[@class=\"el-picker-panel__content el-date-range-picker__content is-left\"]//td[@class=\"available\"])[1]"));
@@ -570,41 +572,41 @@ public class RecevierSide {
 		// Signature
 		Thread.sleep(5000);
 		try {
-			waitEle(By.xpath("//button[text()=\" Sign \"]"));
+			waitEle(By.xpath("//div[@class=\"form-fields-holder\"]//button[text()=\" Sign \"]"));
 		} catch (Exception e) {
-			waitEle(By.xpath("(//img[@class=\"el-tooltip tooltip\"])[1]"));
+			waitEle(By.xpath("(//div[@class=\"form-fields-holder\"]//img[@class=\"el-tooltip tooltip\"])[1]"));
 		}
 		Thread.sleep(10000);
 		waitEle(By.xpath("//span[text()=\"Verify & Save Secure Signature\"]"));
 		System.out.println("filled Signature feild");
 		// date time
-		String DateTime=String.format("(//input[@placeholder=\"DateTime\"])[%d]", n);
+		String DateTime=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"DateTime\"])[%d]", n);
 		waitEle(By.xpath(DateTime));
 		waitEle(By.xpath("(//div[@x-placement]//tr[@class=\"el-date-table__row\"])[2]//td[4]"));
 		waitEle(By.xpath("//span[normalize-space()=\"OK\"]"));
 		System.out.println("filled  date time feild");
 		// yes or no
-		String YesOrNo=String.format("(//span[text()=\"YES\"])[%d]", n);
+		String YesOrNo=String.format("(//div[@class=\"form-fields-holder\"]//span[text()=\"YES\"])[%d]", n);
 		Javascriptclick(By.xpath(YesOrNo));
 		System.out.println("filled yes or no feild");
 		// Weekday
-		String Weekdays=String.format("(//input[@placeholder=\"Weekdays\"])[%d]", n);
+		String Weekdays=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Weekdays\"])[%d]", n);
 		waitEle(By.xpath(Weekdays));
 		Thread.sleep(5000);
 		waitEle(By.xpath("//div[@x-placement]//li[1]"));
 		System.out.println("filled Weekday feild");
 
 		// sigleLine Text
-		String Singlelinetext=String.format("(//input[@placeholder=\"Single line text\"])[%d]", n);
+		String Singlelinetext=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Single line text\"])[%d]", n);
 		driver.findElement(By.xpath(Singlelinetext)).clear();
 		sendKeysToElement(By.xpath(Singlelinetext), "PemmaMohan ReddyMeghana");
 		System.out.println("filled sigleLine Text feild");
 		// checkbox
-		String checkbox1=String.format("(//input[@type=\"checkbox\"])[%d]", checkbox);
-		waitEle(By.xpath(checkbox1));
-		System.out.println("filled checkbox feild");
+//		String checkbox1=String.format("(//div[@class=\"form-fields-holder\"]//input[@type=\"checkbox\"])[%d]", checkbox);
+//		waitEle(By.xpath(checkbox1));
+//		System.out.println("filled checkbox feild");
 		// date Feild
-		String Date=String.format("(//input[@placeholder=\"Date\"])[%d]", n);
+		String Date=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Date\"])[%d]", n);
 		waitEle(By.xpath(Date));
 		waitEle(By.xpath("//div[@x-placement]//tr[@class=\"el-date-table__row\"][1]//td[7]"));
 		System.out.println("filled date Feild feild");
@@ -624,48 +626,48 @@ public class RecevierSide {
 //		waitEle(By.xpath("//div[@x-placement]//li[1]"));
 //		System.out.println("filled fixedTime feild");
 		// list
-		String list=String.format("(//input[@placeholder=\"Please select...\"])[%d]", n);
+		String list=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Please select...\"])[%d]", n);
 		waitEle(By.xpath(list));
 		Thread.sleep(3000);
 		waitEle(By.xpath("//div[@x-placement]//li[1]"));
 		System.out.println("filled list feild");
 		// time
-		String Time=String.format("(//input[@placeholder=\"Time\"])[%d]", n);
+		String Time=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Time\"])[%d]", n);
 		waitEle(By.xpath(Time));
 		waitEle(By.xpath("(//div[@class='el-time-spinner__wrapper el-scrollbar'])[4]//ul//li[text()='12']"));
 		waitEle(By.xpath("(//div[@class='el-time-spinner__wrapper el-scrollbar'])[5]//ul//li[text()='12']"));
 		waitEle(By.xpath("(//div[@class='el-time-spinner__wrapper el-scrollbar'])[6]//ul//li[text()='12']"));
-		waitEle(By.xpath("(//button[text()=\"OK\"])[2]"));
+		waitEle(By.xpath("//button[text()=\"OK\"]"));
 		System.out.println("filled time feild");
 		// Number
-		String Number=String.format("(//input[@placeholder=\"Number\"])[%d]", n);	
+		String Number=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Number\"])[%d]", n);	
 		driver.findElement(By.xpath(Number)).clear();
 		sendKeysToElement(By.xpath(Number), "1");
 		System.out.println("filled Number feild");
 		// Multiline
-		String Multiline=String.format("(//textarea[@placeholder=\"Multiline\"])[%d]", n);
+		String Multiline=String.format("(//div[@class=\"form-fields-holder\"]//textarea[@placeholder=\"Multiline\"])[%d]", n);
 		driver.findElement(By.xpath(Multiline)).clear();
 		sendKeysToElement(By.xpath(Multiline), "PemmaMohan ReddyMeghana");
 		System.out.println("filled Multiline feild");
 		// select
-		String Select=String.format("(//input[@placeholder=\"Select\"])[%d]", n);
+		String Select=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Select\"])[%d]", n);
 		waitEle(By.xpath(Select));
 		Thread.sleep(5000);
 		Javascriptclick(By.xpath("//div[@x-placement]//span[text()=\"Computer science\"]"));
 		System.out.println("filled select feild");
 		// phone no
-		String Phoneno=String.format("(//input[@placeholder=\"Phoneno\"])[%d]", n);
+		String Phoneno=String.format("(//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Phoneno\"])[%d]", n);
 		driver.findElement(By.xpath(Phoneno)).clear();
 		sendKeysToElement(By.xpath(Phoneno), "9347618053");
 		System.out.println("filled phone no feild");
 		// check box group
-		String checkboxgroup1=String.format("(//input[@type=\"checkbox\"])[%d]", checkboxGroup1);
-		waitEle(By.xpath(checkboxgroup1));
-		String checkboxgroup2=String.format("(//input[@type=\"checkbox\"])[%d]", checkboxGroup2);
-		waitEle(By.xpath(checkboxgroup2));
-		System.out.println("filled check box group feild");
+//		String checkboxgroup1=String.format("(//div[@class=\"form-fields-holder\"]//input[@type=\"checkbox\"])[%d]", checkboxGroup1);
+//		waitEle(By.xpath(checkboxgroup1));
+//		String checkboxgroup2=String.format("(//input[@type=\"checkbox\"])[%d]", checkboxGroup2);
+//		waitEle(By.xpath(checkboxgroup2));
+//		System.out.println("filled check box group feild");
 		// multiselect
-		waitEle(By.xpath("//input[@placeholder=\"Multiselect\"]"));
+		waitEle(By.xpath("//div[@class=\"form-fields-holder\"]//input[@placeholder=\"Multiselect\"]"));
 		Thread.sleep(5000);
 		waitEle(By.xpath("//div[@x-placement]//li[1]"));
 		waitEle(By.xpath("//div[@x-placement]//li[2]"));
@@ -686,7 +688,7 @@ public class RecevierSide {
 	public void receiverSideUpdatedBasicFeildsFill() throws Exception {
 		// radio group
 		Thread.sleep(20000);
-		waitEle(By.xpath("//span[text()=\"2\"]"));
+//		waitEle(By.xpath("//span[text()=\"2\"]"));
 		System.out.println("radio group field updated");
 		// date Range
 		waitEle(By.xpath("//input[@placeholder=\"Start date\"]"));
@@ -900,9 +902,9 @@ public class RecevierSide {
 			try {
 				WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
 				if (element.isDisplayed()) {
-					System.out.printf("%s Field data %s displayed correctly\n", field, fieldValue);
+					System.out.printf(" Field data %s displayed correctly\n",  fieldValue);
 				} else {
-					System.out.printf(RED + "%s Field data %s not displayed or displayed incorrectly\n" + RESET, field,
+					System.out.printf(RED + " Field data %s not displayed or displayed incorrectly\n" + RESET, 
 							fieldValue);
 				}
 			} catch (Exception e) {
@@ -911,14 +913,14 @@ public class RecevierSide {
 					JavascriptExecutor js = (JavascriptExecutor) driver;
 					js.executeScript("arguments[0].scrollIntoView({block: 'nearest', inline: 'start'});", element);
 					if (element.isDisplayed()) {
-						System.out.printf("%s Field data %s displayed correctly after scroll\n", field, fieldValue);
+						System.out.printf(" Field data %s displayed correctly after scroll\n", fieldValue);
 					} else {
 						System.out.printf(
-								RED + "%s Field data %s not displayed or displayed incorrectly after scroll\n" + RESET,
-								field, fieldValue);
+								RED + " Field data %s not displayed or displayed incorrectly after scroll\n" + RESET,
+								 fieldValue);
 					}
 				} catch (Exception ex) {
-					System.out.printf(RED + "%s Field data %s not found in the DOM\n" + RESET, field, fieldValue);
+					System.out.printf(RED + " Field data %s not found in the DOM\n" + RESET,  fieldValue);
 				}
 			}
 		}

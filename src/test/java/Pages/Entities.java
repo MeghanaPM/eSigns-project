@@ -1,8 +1,24 @@
 package Pages;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Set;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import java.util.List;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -61,21 +77,12 @@ public class Entities {
 	}
 
 	public void entity() throws Exception {
-
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
-
-		Thread.sleep(10000);
-
-		waitEle(By.xpath("//div[text()=\" Jeevitha Patnana \"]"));
-
-		Thread.sleep(3000);
-
-		By Entities = By.xpath("//li[normalize-space()=\"Entities\"]");
-		WebElement Entities1 = wait.until(ExpectedConditions.elementToBeClickable(Entities));
-		Entities1.click();
-
-		System.out.println("Clicked on entities in profile completed");
-
+//		waitEle(By.xpath("//div[@class='icon-text']"));
+//
+//		Javascriptclick(By.xpath("//li[normalize-space()=\"Entities\"]"));
+//
+//		System.out.println("Clicked on entities in profile completed");
+		driver.get("https://nsui.esigns.io/entity");
 	}
 
 	public void ClickEntityAction(String s) throws Exception {
@@ -83,15 +90,11 @@ public class Entities {
 		String xpath = String.format(
 				"//div[@class='el-table__fixed']//div[contains(text(),'%s')]/ancestor::tr//span[normalize-space()=\"Actions\"]",
 				s);
-
 		Thread.sleep(10000);
 		WebElement elementToHover = driver.findElement(By.xpath(xpath));
-
 		Actions actions = new Actions(driver);
-
 		actions.moveToElement(elementToHover).perform();
-
-		waitEle(By.xpath("//ul[@x-placement=\"bottom-end\"] //li[normalize-space()='View']"));
+		waitEle(By.xpath("//ul[@x-placement] //li[normalize-space()='View']"));
 		System.out.println("Click on View Action Done successfully");
 	}
 
@@ -184,21 +187,41 @@ public class Entities {
 
 	}
 
-	@SuppressWarnings("deprecation")
-	public void uploadFile() throws Exception {
+	public void uploadFile(String path) throws Exception {
 		Thread.sleep(10000);
-
-		By ele = By.xpath("//p[text()=\"Drag & Drop Excel file here\"]");
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
-		WebElement c = wait.until(ExpectedConditions.elementToBeClickable(ele));
-		c.click();
-		Runtime.getRuntime()
-				.exec("\"C:\\Users\\meghana.pemma\\OneDrive - Nimble Accounting\\Desktop\\fileuploadexcel.exe\"s");
+		File uploadFile = new File(path);
+		WebElement fileInput = driver.findElement(By.cssSelector("input[type=file]"));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].value = '';", fileInput);
+		fileInput.sendKeys(uploadFile.getAbsolutePath());
 		System.out.println("Excel is imported successfully from PC");
 	}
 
 	public void nextButton() throws Exception {
 		waitEle(By.xpath("//span[text()=\"Next\"]"));
+	}
+
+	public void nextButtonInImport() throws Exception {
+		waitEle(By.xpath("//button[@class=\"btn btn btn-outline-success btn-sm m-lr-1\"]"));
+	}
+
+	public void finishImportButton() throws Exception {
+		waitEle(By.xpath("//button[@class=\"btn btn-outline-success btn-sm m-lr-1\"]"));
+		waitEle(By.xpath("//button[@class=\"btn btn-outline-primary mt-2 m-lr-1 mb-2\"]"));
+	}
+
+	public void SpanButton(String s) throws Exception {
+		Thread.sleep(5000);
+		try {
+			String span = String.format("//span[normalize-space()=\"%s\"]", s);
+			By ele = By.xpath(span);
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+			WebElement c = wait.until(ExpectedConditions.elementToBeClickable(ele));
+			c.click();
+			System.out.printf("Click on %s done Successfully %n", s);
+		} catch (Exception e) {
+
+		}
 	}
 
 	public void actionView() throws Exception {
@@ -374,20 +397,65 @@ public class Entities {
 				.xpath("//button[@class=\"el-button el-tooltip entity-add-btn el-button--default el-button--mini\"]"));
 		System.out.println("Click on filter done successfully");
 		Set<String> windowHandles = driver.getWindowHandles();
-		for (String handle : windowHandles) {
-			driver.switchTo().window(handle);
-		}
 		waitEle(By.xpath("//span[normalize-space()=\"Add Filter+\"]"));
 		System.out.println("Click on Add filter done successfully");
 		waitEle(By.xpath("//input[@placeholder=\"Entity Field\"]"));
-		Thread.sleep(5000);
-		waitEle(By.xpath("//div[@x-placement=\"bottom-start\"]//li[1]"));
+
+		Javascriptclick(By.xpath("//div[@x-placement=\"bottom-start\"]//li[1]"));
 		waitEle(By.xpath("//input[@placeholder=\"Operator\"]"));
-		Thread.sleep(5000);
-		waitEle(By.xpath("//div[@x-placement=\"bottom-start\"]//li[4]"));
-		waitEle(By.xpath("//span[normalize-space()=\"Apply\"]"));
+
+		Javascriptclick(By.xpath("//div[@x-placement=\"bottom-start\"]//li[4]"));
+		Javascriptclick(By.xpath("//button[normalize-space()='Apply']"));
 		System.out.println("Adding filter done successfully");
 
+	}
+
+	public void filters() throws Exception {
+		Thread.sleep(10000);
+		waitEle(By.xpath("//button[@class=\"el-tooltip btn btn-sm btn-outline-secondary m-lr-1\"]"));
+		System.out.println("Click on filter done successfully");
+		switchToNewWindow();
+		waitEle(By.xpath("//span[normalize-space()=\"Add Filter+\"]"));
+		System.out.println("Click on Add filter done successfully");
+		waitEle(By.xpath("//input[@placeholder=\"Entity Field\"]"));
+
+	}
+
+	public void filterNumberField(String Field, String operation, String vType, String num) throws Exception {
+		String field = String.format("//li[contains(text(),\"%s\")]", Field);
+		Javascriptclick(By.xpath(field));
+		System.out.println("Selected Field to apply Filter");
+		waitEle(By.xpath("//input[@placeholder=\"Operator\"]"));
+		String operator = String.format("//li//span[text()=\"%s\"]", operation);
+		Javascriptclick(By.xpath(operator));
+		System.out.println("Successfully Selected Operator");
+		if (operation == "Not Exist" || operation == "Exist") {
+
+		} 
+		else if (operation == "Range") {
+			sendKeysToElement(By.xpath("//input[@placeholder=\"starting value\"]"), "1");
+//			waitEle(By.xpath("//input[@placeholder=\"ending value\"]"));
+			Thread.sleep(5000);
+			sendKeysToElement(By.xpath("//input[@placeholder=\"ending value\"]"), num);
+		} else {
+			waitEle(By.xpath("//input[@placeholder=\"Value type\"]"));
+			String valueType = String.format("//li//span[text()=\"%s\"]", vType);
+			Javascriptclick(By.xpath(valueType));
+			System.out.println("Successfully Selected ValueType");
+			try {
+				driver.findElement(By.xpath("//input[@role=\"spinbutton\"]")).clear();
+				sendKeysToElement(By.xpath("//input[@role=\"spinbutton\"]"), num);
+			} catch (Exception e) {
+				waitEle(By.xpath("//div[@class=\"scrollable-content\"]//input[@placeholder=\"Select\"]"));
+				String value = String.format("//li//span[contains(text(),\"%s\")]", num);
+				Javascriptclick(By.xpath(value));
+
+			}
+		}
+		Thread.sleep(10000);
+		Javascriptclick(By.xpath(
+				"//div[@class=\"dialog-footer\"]//button[@class=\"btn btn btn-outline-success btn-sm m-lr-1\"]"));
+		System.out.println("Adding filter done successfully");
 	}
 
 	public void EyeIcon() throws Exception {
@@ -464,10 +532,8 @@ public class Entities {
 
 //Create from Scratch
 	public void FormTemplate() throws Exception {
-//		Thread.sleep(10000);
-//
-//		waitEle(By.xpath("//span[@class='el-icon-arrow-down text-white']"));
-		WebElement elementToHover = driver.findElement(By.xpath("//div[text()=\" Jeevitha Patnana \"]"));
+
+		WebElement elementToHover = driver.findElement(By.xpath("//div[@class='icon-text']"));
 
 		Actions actions = new Actions(driver);
 
@@ -475,7 +541,6 @@ public class Entities {
 		Thread.sleep(3000);
 		Javascriptclick(By.xpath("//li[normalize-space()=\"Form Template\"]"));
 
-		
 		System.out.println("Clicked on Form template in profile completed");
 
 	}
@@ -504,6 +569,19 @@ public class Entities {
 
 	}
 
+	public void Loadingmask() throws Exception {
+		Thread.sleep(10000);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
+		By overlayLocator = By.xpath("//div[@class='el-loading-mask is-fullscreen']");
+
+		try {
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(overlayLocator));
+		} catch (Exception e) {
+
+		}
+
+	}
+
 	public void CreateFormtemplate(String s) throws Exception {
 
 		Thread.sleep(10000);
@@ -516,6 +594,7 @@ public class Entities {
 		executor.executeScript("arguments[0].click();", add);
 		System.out.println("clicked create FormTemplate using JS.");
 		Thread.sleep(5000);
+		Loadingmask();
 		waitEle(By.xpath("//div[@class=\"icons plus-symbol\"]"));
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
 
@@ -649,7 +728,6 @@ public class Entities {
 		waitEle(By.xpath(entitytype));
 		String createFrom = String.format("//h4[contains(text(),'%s')]", s);
 		waitEle(By.xpath(createFrom));
-		waitEle(By.xpath("//h4[contains(text(),\"Start from scratch\")]"));
 		Thread.sleep(3000);
 		waitEle(By.xpath("//button[@class=\"btn btn btn-outline-primary btn-sm m-lr-1\"]"));
 
@@ -658,8 +736,34 @@ public class Entities {
 	}
 
 	public void addtemplate(String t) throws Exception {
+		Thread.sleep(10000);
+		String temp = String.format("//p[normalize-space()= '%s']", t);
+		waitEle(By.xpath(temp));
 
-		String temp = String.format("//p[text()= '%s']", t);
+		System.out.println("Form template added successfully");
+
+		waitEle(By.xpath("//span[text()=\"Update & Next\"]"));
+		try {
+			primaryFeild();
+		} catch (Exception e) {
+		}
+		waitEle(By.xpath("//div[@class=\"el-notification__closeBtn el-icon-close\"]"));
+
+		waitEle(By.xpath("//div[text()=\"Actions\"]"));
+
+		waitEle(By.xpath("//span[text()=\"Done\"]"));
+	}
+
+	public void syncRelationAdd() throws Exception {
+
+		waitEle(By.xpath("//button[@class=\"el-button el-button--success el-button--mini\"]"));
+		System.out.println("Sync Relation Added Successdfully");
+		SpanButton("Skip");
+	}
+
+	public void addTempToEntity(String template) throws Exception {
+		Thread.sleep(10000);
+		String temp = String.format("//p[normalize-space()= '%s']", template);
 		waitEle(By.xpath(temp));
 
 		System.out.println("Form template added successfully");
@@ -670,11 +774,25 @@ public class Entities {
 		} catch (Exception e) {
 		}
 
-		waitEle(By.xpath("//div[@class=\"el-notification__closeBtn el-icon-close\"]"));
+	}
+
+	public void entityCreateCmpltAfterRelationAdd() throws Exception {
+		Thread.sleep(5000);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+		try {
+
+			By xpath = By.xpath("//div[@class=\"el-notification__closeBtn el-icon-close\"]");
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(xpath));
+
+		} catch (Exception e) {
+
+		}
+		waitEle(By.xpath("//div[text()=\"Customization\"]"));
 		waitEle(By.xpath("//div[text()=\"Actions\"]"));
 
 		waitEle(By.xpath("//span[text()=\"Done\"]"));
-
+		System.out.println("Created entity successfully");
 	}
 
 	public void entityTwo() throws Exception {
@@ -683,7 +801,7 @@ public class Entities {
 	}
 
 	private void waitAndClick(Actions actions, WebElement element, WebElement target) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(3));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
 		try {
 
 			WebElement clickableElement = wait.until(ExpectedConditions.elementToBeClickable(element));
@@ -720,17 +838,13 @@ public class Entities {
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
 
-		WebElement FullName = wait.until(ExpectedConditions
-				.presenceOfElementLocated(By.xpath("//div[@class=\"dropBox\"]//ul[@class=\"list-group\"]//li[text()=\" Single line text \"]")));
-
+		WebElement FullName = wait.until(ExpectedConditions.presenceOfElementLocated(
+				By.xpath("//div[@class=\"dropBox\"]//ul[@class=\"list-group\"]//li[text()=\" Single line text \"]|"
+						+ "//div[@class=\"dropBox\"]//ul[@class=\"list-group\"]//li[normalize-space()=\"Single Line Text\"]")));
 		WebElement Target = driver.findElement(By.xpath("(//ul[@class=\"list-group\"])[2]"));
-
 		Actions actions = new Actions(driver);
-
 		waitAndClick(actions, FullName, Target);
-
 		System.out.println("primary feild Drag and Drop Done");
-
 		waitEle(By.xpath("//span[normalize-space()='Update & Next']"));
 
 	}
@@ -821,12 +935,17 @@ public class Entities {
 	}
 
 	public void back() throws Exception {
-		waitEle(By.xpath("//i[@class=\"el-icon-back\"]"));
+		try {
+			waitEle(By.xpath("//button[@class=\"el-button go-back-button el-button--default\"]"));
+		} catch (Exception e) {
+			waitEle(By.xpath("//i[@class=\"el-icon-back\"]"));
+		}
+
 	}
 
 	public void validSuccessBug4798() {
 		try {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(2));
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
 			WebElement welcomeMessage = wait.until(ExpectedConditions
 					.presenceOfElementLocated(By.xpath("//div[@class=\"el-message el-message--success\"]")));
 
@@ -2117,9 +2236,9 @@ public class Entities {
 
 	// Basic Feilds
 	public void basicFeilds() throws Exception {
-		Thread.sleep(10000);
+
 		waitEle(By.xpath("//div[text()=\"Basic Fields\"]"));
-		Thread.sleep(10000);
+
 		// Single Line
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
 
@@ -2130,6 +2249,7 @@ public class Entities {
 		WebElement Singlelinetext = driver.findElement(By.xpath("//span[text()=\"Single Line Text\"]"));
 		waitAndClick(actions, Singlelinetext, Target, -550, -200);
 		System.out.println("Singleline Drag and Drop Done");
+
 		By SName = By.xpath("//input[@placeholder='Enter Field Title']");
 		WebElement SName1 = wait.until(ExpectedConditions.elementToBeClickable(SName));
 		SName1.sendKeys("Single line text");
@@ -2147,14 +2267,15 @@ public class Entities {
 		WebElement Select = driver.findElement(By.xpath("//span[text()=\"Select\"]"));
 		waitAndClick(actions, Select, Target, -550, -140);
 		System.out.println("Select Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Select");
 		Thread.sleep(5000);
 		waitEle(By.xpath("//div[@class=\"el-select__tags\"]"));
-		sendKeysToElement(By.xpath("//div[@class=\"el-select__tags\"]"), "Computer science");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "Computer science");
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
-		sendKeysToElement(By.xpath("//div[@class=\"el-select__tags\"]"), "maths");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "maths");
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
-		sendKeysToElement(By.xpath("//div[@class=\"el-select__tags\"]"), "Physics");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "Physics");
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
 		Thread.sleep(10000);
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
@@ -2162,32 +2283,33 @@ public class Entities {
 		WebElement Number = driver.findElement(By.xpath("//span[text()=\"Number\"]"));
 		waitAndClick(actions, Number, Target, -550, -80);
 		System.out.println("Number Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Number");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// MultiSelect
-		WebElement MultiSelect = driver
-				.findElement(By.xpath("(//button[@class='el-button field-element el-button--default'])[5]"));
+		WebElement MultiSelect = driver.findElement(By.xpath("//span[text()=\"Multiple Select\"]"));
 		waitAndClick(actions, MultiSelect, Target, -550, -20);
 		System.out.println("MultiSelect Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Multiselect");
 		waitEle(By.xpath("//div[@class=\"el-select__tags\"]"));
-		sendKeysToElement(By.xpath("//div[@class=\"el-select__tags\"]"), "Computer science");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "Computer science");
 
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
 
-		sendKeysToElement(By.xpath("//div[@class=\"el-select__tags\"]"), "maths");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "maths");
 
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
 
-		sendKeysToElement(By.xpath("//div[@class=\"el-select__tags\"]"), "Physics");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "Physics");
 
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// List
-		WebElement List = driver
-				.findElement(By.xpath("(//button[@class='el-button field-element el-button--default'])[6]"));
+		WebElement List = driver.findElement(By.xpath("//span[text()=\"List\"]"));
 		waitAndClick(actions, List, Target, -550, 40);
 		System.out.println("List Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "list");
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Name']"), "List");
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Value']"), "123");
@@ -2198,12 +2320,14 @@ public class Entities {
 		WebElement Date = driver.findElement(By.xpath("//span[text()=\"Date\"]"));
 		waitAndClick(actions, Date, Target, -550, 100);
 		System.out.println("Date Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Date");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// Time
 		WebElement Time = driver.findElement(By.xpath("//span[text()=\"Time\"]"));
 		waitAndClick(actions, Time, Target, -550, 160);
 		System.out.println("Time Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Time");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// Fixed Time
@@ -2216,18 +2340,21 @@ public class Entities {
 		WebElement TimeRange = driver.findElement(By.xpath("//span[text()=\"Time Range\"]"));
 		waitAndClick(actions, TimeRange, Target, -350, -200);
 		System.out.println("TimeRange Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "TimeRange");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// DateTime
 		WebElement DateTime = driver.findElement(By.xpath("//span[text()=\"Date Time\"]"));
 		waitAndClick(actions, DateTime, Target, -350, -140);
 		System.out.println("DateTime Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "DateTime");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// DateRange
 		WebElement DateRange = driver.findElement(By.xpath("//span[text()=\"Date Range\"]"));
 		waitAndClick(actions, DateRange, Target, -350, -80);
 		System.out.println("DateRange Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "DateRange");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 
@@ -2235,6 +2362,7 @@ public class Entities {
 		WebElement Weekdays = driver.findElement(By.xpath("//span[text()=\"Week Days\"]"));
 		waitAndClick(actions, Weekdays, Target, -350, -30);
 		System.out.println("Weekdays Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Weekdays");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 
@@ -2242,25 +2370,28 @@ public class Entities {
 		WebElement YesorNo = driver.findElement(By.xpath("//span[text()=\"Yes or No\"]"));
 		waitAndClick(actions, YesorNo, Target, -350, 10);
 		System.out.println("YesorNo Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "YesorNo");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// checkbox
 		WebElement Checkbox = driver.findElement(By.xpath("//span[text()=\"Checkbox\"]"));
 		waitAndClick(actions, Checkbox, Target, -350, 40);
 		System.out.println("Checkbox Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Checkbox");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// Checkbox Group
 		WebElement Checkboxgroup = driver.findElement(By.xpath("//span[text()=\"Checkbox Group\"]"));
 		waitAndClick(actions, Checkboxgroup, Target, -350, 150);
 		System.out.println("Checkbox Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "CheckboxGroup");
 		Thread.sleep(5000);
-		sendKeysToElement(By.xpath("//input[@class='el-select__input']"), "1");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "1");
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
-		sendKeysToElement(By.xpath("//input[@class='el-select__input']"), "2");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "2");
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
-		sendKeysToElement(By.xpath("//input[@class='el-select__input']"), "3");
+		sendKeysToElement(By.xpath("//input[@class='el-select__input is-mini']"), "3");
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
 		sendKeysToElement(By.xpath("(//div[@class=\"el-input\"]//input[@class=\"el-input__inner\"])[2]"), "1");
 		sendKeysToElement(By.xpath("(//div[@class=\"el-input\"]//input[@class=\"el-input__inner\"])[3]"), "2");
@@ -2269,18 +2400,21 @@ public class Entities {
 		WebElement Document = driver.findElement(By.xpath("//span[text()=\"Document\"]"));
 		waitAndClick(actions, Document, Target, -350, 230);
 		System.out.println("Document Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Document");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// Radio
 		WebElement Radio = driver.findElement(By.xpath("//span[text()=\"Radio\"]"));
 		waitAndClick(actions, Radio, Target, -50, -150);
 		System.out.println("Radio Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Radio");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// RadioGroup
 		WebElement Radiogroup = driver.findElement(By.xpath("//span[text()=\"Radio Group\"]"));
 		waitAndClick(actions, Radiogroup, Target, -50, -120);
 		System.out.println("Radio Group Field Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "RadioGroup");
 		sendKeysToElement(By.xpath("//input[@class='el-select__input']"), "1");
 		waitEle(By.xpath("//div[@x-placement]//ul//li[1]"));
@@ -2294,21 +2428,45 @@ public class Entities {
 		WebElement Phoneno = driver.findElement(By.xpath("//span[text()=\"Phone\"]"));
 		waitAndClick(actions, Phoneno, Target, -50, -20);
 		System.out.println("Phoneno Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Phonono");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// Signature
 		WebElement Sign = driver.findElement(By.xpath("//span[text()=\"Signature\"]"));
 		waitAndClick(actions, Sign, Target, -50, 100);
 		System.out.println("Sign Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Sign");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		// Captcha
 		WebElement Captcha = driver.findElement(By.xpath("//span[text()=\"Captcha\"]"));
 		waitAndClick(actions, Captcha, Target, -50, 180);
 		System.out.println("Captcha Element Drag and Drop Done");
+
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Captcha");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
-
+		// Formula
+		Thread.sleep(10000);
+		WebElement Formula = driver.findElement(By.xpath("//span[text()=\"Formula\"]"));
+		waitAndClick(actions, Formula, Target, -300, 0);
+		System.out.println(" Formula Element Drag and Drop Done");
+		switchToNewWindow();
+		Thread.sleep(10000);
+		sendKeysToElement(By.xpath("//input[@placeholder='Enter field title']"), "Formula Field");
+		waitEle(By.xpath("//input[@placeholder=\"Select Fields\"]"));
+		waitEle(By.xpath("//span[text()=\"Self/Number\"]"));
+		waitEle(By.xpath("//img[@src=\"/img/plus.d55789c4.svg\"]"));
+		waitEle(By.xpath("//input[@placeholder=\"Select Fields\"]"));
+		waitEle(By.xpath("//span[text()=\"Self/Number\"]"));
+		waitEle(By.xpath("//span[text()='Insert Field']"));
+		// Currency
+		WebElement Currency = driver.findElement(By.xpath("//span[text()=\"Currency\"]"));
+		waitAndClick(actions, Currency, Target, -550, 0);
+		System.out.println("Currency Element Drag and Drop Done");
+		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Currency");
+		waitEle(By.xpath("//input[@id=\"currencySelect\"]"));
+		waitEle(By.xpath("//span[text()=\"INR\"]"));
+		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
 		waitEle(By.xpath("//span[normalize-space()='Save']"));
 	}
 
@@ -2316,7 +2474,7 @@ public class Entities {
 	public void advancedFeilds() throws Exception {
 		waitEle(By.xpath("//div[text()=\"Basic Fields\"]"));
 		Thread.sleep(10000);
-		WebElement Target = driver.findElement(By.xpath("//div[@class='base-parent']"));
+		WebElement Target = driver.findElement(By.xpath("//div[@class=\"form-builder\"]"));
 		Actions actions = new Actions(driver);
 		// Number1
 		WebElement Number = driver.findElement(By.xpath("//span[text()=\"Number\"]"));
@@ -2348,14 +2506,7 @@ public class Entities {
 		System.out.println("Location Element Drag and Drop Done");
 		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Location");
 		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
-		// Currency
-		WebElement Currency = driver.findElement(By.xpath("//span[text()=\"Currency\"]"));
-		waitAndClick(actions, Currency, Target, -550, 0);
-		System.out.println("Currency Element Drag and Drop Done");
-		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Currency");
-		waitEle(By.xpath("//input[@id=\"currencySelect\"]"));
-		waitEle(By.xpath("//span[text()=\"INR\"]"));
-		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
+
 		// Question
 		WebElement Question = driver.findElement(By.xpath("//span[text()=\"Question\"]"));
 		waitAndClick(actions, Question, Target, -550, 100);
@@ -2393,20 +2544,6 @@ public class Entities {
 		waitEle(By.xpath("//div[@x-placement]//li"));
 		waitEle(By.xpath("(//input[@placeholder=\"Select\"])[4]"));
 		waitEle(By.xpath("//div[@x-placement]//li"));
-		waitEle(By.xpath("//span[text()='Insert Field']"));
-		// Formula
-		Thread.sleep(10000);
-		WebElement Formula = driver.findElement(By.xpath("//span[text()=\"Formula\"]"));
-		waitAndClick(actions, Formula, Target, -300, 0);
-		System.out.println(" Formula Element Drag and Drop Done");
-		switchToNewWindow();
-		Thread.sleep(10000);
-		sendKeysToElement(By.xpath("//input[@placeholder='Enter field title']"), "Formula Field");
-		waitEle(By.xpath("//input[@placeholder=\"Select Fields\"]"));
-		waitEle(By.xpath("//span[text()=\"Self/Number\"]"));
-		waitEle(By.xpath("//img[@src=\"/img/plus.d55789c4.svg\"]"));
-		waitEle(By.xpath("//input[@placeholder=\"Select Fields\"]"));
-		waitEle(By.xpath("//span[text()=\"Self/Number2\"]"));
 		waitEle(By.xpath("//span[text()='Insert Field']"));
 
 		// AggregateFunction
@@ -2462,4 +2599,388 @@ public class Entities {
 		waitEle(By.xpath("//button[@class=\"btn btn-outline-primary btn-sm m-lr-1\"]"));
 		System.out.println("Clciked on template name to view all the feilds in grid view");
 	}
+
+	public void mapFieldsPageCreateTemplate(String tempTitle) throws Exception {
+		waitEle(By.xpath("(//i[@class=\"el-icon-circle-plus\"])[1]"));
+		sendKeysToElement(By.id("tempTitle"), tempTitle);
+		SpanButton("Save");
+		System.out.println("Created form Template successfully");
+	}
+
+	public void excelSheetDataRead(String filePath, String sheetName) throws Exception {
+		try (FileInputStream file = new FileInputStream(filePath); XSSFWorkbook workbook = new XSSFWorkbook(file)) {
+
+			XSSFSheet sheet = workbook.getSheet(sheetName);
+			int rowsCount = sheet.getLastRowNum();
+			int pages = rowsCount / 100;
+			if (rowsCount == 0) {
+				System.out.println("The Excel sheet is empty.");
+				return;
+			}
+
+			int columnCount = sheet.getRow(1).getLastCellNum();
+			for (int i = 1; i <= rowsCount; i++) {
+				XSSFRow row = sheet.getRow(i);
+				boolean found = false;
+				int currentPage = 1;
+				while (!found) {
+					for (int j = 0; j < columnCount; j++) {
+						Cell cell = row.getCell(j);
+						String cellValue = getCellValueAsString(cell);
+						String formattedCellValue = formatCellValue(cellValue);
+
+						String xpath = String.format(
+								"//div[3]/table[1]/tbody[1]/tr/td[%d]//div[1]/div[1]/div[1]//p[normalize-space()=\"%s\"]",
+								j + 2, formattedCellValue);
+
+						try {
+
+							WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+							WebElement element = wait
+									.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+							String eleText = element.getText();
+							if (!formattedCellValue.equals(eleText)) {
+								System.out.printf(
+										"Value '%s' in Excel does not equal to '%s' in entity at row %d, column %d%n",
+										formattedCellValue, eleText, i, j + 1);
+							} else {
+								found = true;
+								System.out.printf("Value '%s' in Excel equals to '%s' in entity at row %d, column %d%n",
+										formattedCellValue, eleText, i, j + 1);
+							}
+
+						} catch (NoSuchElementException e) {
+							if (!isLastPage()) {
+								goToNextPage();
+								currentPage++;
+							} else {
+								System.out.printf("Record not found for row %d, column %d%n", i, j + 1);
+								found = true;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private boolean isLastPage() {
+		try {
+			WebElement nextPageButton = driver.findElement(By.xpath("//button[@class=\"btn-next\"]"));
+			return !nextPageButton.isDisplayed();
+		} catch (NoSuchElementException e) {
+			return true;
+		}
+	}
+
+	private void goToNextPage() throws Exception {
+		waitEle(By.xpath("//button[@class=\"btn-next\"]"));
+	}
+
+	private String formatCellValue(String cellValue) {
+		if (cellValue.contains(".")) {
+			try {
+				double numericValue = Double.parseDouble(cellValue);
+				if (numericValue % 1 == 0) {
+					return String.valueOf((int) numericValue);
+				}
+			} catch (NumberFormatException e) {
+				// In case the cell value is not a number, return it as is
+				return cellValue;
+			}
+		}
+		return cellValue;
+	}
+
+	private String getCellValueAsString(Cell cell) {
+		if (cell == null) {
+			return "";
+		}
+		switch (cell.getCellType()) {
+		case STRING:
+			return cell.getStringCellValue();
+		case NUMERIC:
+			double numericValue = cell.getNumericCellValue();
+			if (DateUtil.isCellDateFormatted(cell)) {
+				return cell.getDateCellValue().toString();
+			} else {
+				if (numericValue % 1 == 0) {
+					return String.valueOf((int) numericValue);
+				} else {
+					return String.valueOf(numericValue);
+				}
+			}
+		case BOOLEAN:
+			return String.valueOf(cell.getBooleanCellValue());
+		case FORMULA:
+			try {
+				return cell.getStringCellValue();
+			} catch (IllegalStateException e) {
+				return String.valueOf(cell.getNumericCellValue());
+			}
+		case BLANK:
+			return "";
+		default:
+			return "";
+		}
+	}
+
+	public void recordsPerPage(String NoOfPages) throws Exception {
+		Thread.sleep(10000);
+		Javascriptclick(By.xpath("//input[@placeholder=\"Select\"]"));
+		String ele = String.format("//div[@x-placement]//span[text()=\"%s\"]", NoOfPages);
+		Javascriptclick(By.xpath(ele));
+		System.out.printf("Selected %s%n", NoOfPages);
+	}
+
+	public void clearContactTempImport() throws Exception {
+		Thread.sleep(10000);
+		WebElement elementToHover = driver.findElement(By.xpath(
+				"//table[contains(@class, 'el-table__body')]//tr[2]//td[2]//input[@placeholder='Select form template']"));
+
+		Actions actions = new Actions(driver);
+
+		actions.moveToElement(elementToHover).perform();
+		waitEle(By.xpath("//i[@class='el-select__caret el-input__icon el-icon-circle-close']"));
+	}
+
+	public void exportExcel() throws Exception {
+		Thread.sleep(10000);
+		waitEle(By.xpath("//i[@class='fa fa-cloud-upload']"));
+		Javascriptclick(By.xpath("//ul[@x-placement]//li[1]"));
+	}
+
+	public void importExcelInEntity() throws Exception {
+		Thread.sleep(10000);
+		waitEle(By.xpath("//i[@class=\"fa fa-cloud-download\"]"));
+		Javascriptclick(By.xpath("//ul[@x-placement]//li[1]"));
+	}
+
+	public void yesButtonWithoutAddTemp() throws Exception {
+		waitEle(By.xpath("//button//span[text()=\"Yes\"]"));
+	}
+
+	public void continueButton() throws Exception {
+		waitEle(By.xpath("//button[normalize-space()='Continue']"));
+	}
+
+	public void verifyBasicFieldDataFillInIndividualEntity() throws Exception {
+
+//		MethodActions.waitEle(By.xpath("(//button[contains(@class,'btn btn-light')])[2]"));
+		// driver.get("https://nsui.esigns.io/entity/66b308e047ad681aec33b58e?viewType=TABLE&page=1&pageSize=10");
+
+		Thread.sleep(10000);
+		WebElement firstRow = driver
+				.findElement(By.xpath("//div[@class='el-table__body-wrapper is-scrolling-left']//tr[1]"));
+		List<WebElement> columns = firstRow.findElements(By.tagName("td"));
+
+		for (WebElement column : columns) {
+			System.out.println(column.getText());
+		}
+		List<String> extractedTexts = new ArrayList<>();
+		for (int i = 2; i <= 23; i++) {
+
+			WebElement element = driver.findElement(By.xpath("(//td[@rowspan='1'])[" + i + "]"));
+			extractedTexts.add(element.getText().trim());
+		}
+
+		List<String> expectedTexts = Arrays.asList("Single line text", "12:20:05 - 13:20:05", "Test",
+				"Computer science", "08-02-2024 TO 09-01-2024", "08-08-2024 12:20:18", "44", "SUN", "Computer science",
+				"List", "1", "08-02-2024", "12:19:37", "dd.PNG", "true", "01:30", "NO", "1");
+
+		if (extractedTexts.equals(expectedTexts)) {
+			System.out.println("pass");
+		} else {
+			System.out.println("fail");
+		}
+	}
+
+	public void EntityFieldDragAndDrop(String Name) throws Exception {
+		// Entity
+		Thread.sleep(10000);
+		waitEle(By.xpath("//div[text()=\"Advanced Fields\"]"));
+		WebElement Target = driver.findElement(By.xpath("//div[@class=\"form-builder\"]"));
+		Actions actions = new Actions(driver);
+		Thread.sleep(10000);
+		WebElement Entity = driver.findElement(By.xpath("//span[text()=\"Entity\"]"));
+		waitAndClick(actions, Entity, Target, 300, -200);
+		System.out.println("Entity Element Drag and Drop Done");
+		Thread.sleep(10000);
+
+		sendKeysToElement(By.xpath("//input[@placeholder='Enter Field Title']"), "Entity Field");
+		waitEle(By.xpath("(//input[@placeholder=\"Select\"])[2]"));
+		String entityName = String.format("//span[text()=\"%s\"]", Name);
+		waitEle(By.xpath(entityName));
+		waitEle(By.xpath("//span[text()='Insert Field']"));
+	}
+
+	public void singleLineTextDragAndDrop() throws Exception {
+		waitEle(By.xpath("//div[text()=\"Basic Fields\"]"));
+
+		// Single Line
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
+
+		WebElement Target = driver.findElement(By.xpath("//div[@class=\"form-builder\"]"));
+		Dimension dropSize = Target.getSize();
+		System.out.println(dropSize);
+		Actions actions = new Actions(driver);
+		WebElement Singlelinetext = driver.findElement(By.xpath("//span[text()=\"Single Line Text\"]"));
+		waitAndClick(actions, Singlelinetext, Target, -550, -200);
+		System.out.println("Singleline Drag and Drop Done");
+
+		By SName = By.xpath("//input[@placeholder='Enter Field Title']");
+		WebElement SName1 = wait.until(ExpectedConditions.elementToBeClickable(SName));
+		SName1.sendKeys("Single line text");
+		waitEle(By.xpath("(//span[normalize-space()='Insert Field'])[1]"));
+	}
+
+	public void AddContactDetailsOnlyToEntity(String F, String M, String L, String E, String T, String A, String P)
+			throws Exception {
+
+//		waitEle(By.xpath("//ul[@x-placement]//a[1]"));
+
+		Thread.sleep(10000);
+
+		Javascriptclick(By.xpath("//button[@class='el-tooltip btn btn-outline-success btn-sm m-lr-1']"));
+
+		sendKeysToElement(By.xpath("//input[@placeholder='First Name']"), F);
+
+		sendKeysToElement(By.xpath("//input[@placeholder='Middle Name']"), M);
+
+		sendKeysToElement(By.xpath("//input[@placeholder='Last Name']"), L);
+
+		sendKeysToElement(By.xpath("//input[@placeholder='Email']"), E);
+
+		sendKeysToElement(By.xpath("//input[@placeholder='Title']"), T);
+
+		sendKeysToElement(By.xpath("//input[@placeholder='Address']"), A);
+
+		waitEle(By.xpath("//input[@placeholder='Country code']"));
+
+		waitEle(By.xpath("//div[text()=' India (भारत) ']"));
+
+		sendKeysToElement(By.xpath("//input[@placeholder='Phone number *']"), P);
+
+		try {
+			waitEle(By.xpath("//span[normalize-space()='Save & Next']"));
+		} catch (Exception e) {
+			waitEle(By.xpath("//span[normalize-space()='Save']"));
+		}
+	}
+
+	public void enterName(String Name) throws Exception {
+		sendKeysToElement(By.xpath("//input[@placeholder=\"Single line text\"]"), Name);
+	}
+
+	public void clickOnTempInEntityView() throws Exception {
+		waitEle(By.xpath("//div[@role=\"tab\"][2]"));
+	}
+
+	public void VerifyData() throws Exception {
+
+		try {
+			Thread.sleep(10000);
+			driver.findElement(By
+					.xpath("//div[@class=\"el-table__body-wrapper is-scrolling-left\"]//p[normalize-space()='reddy']"))
+					.isDisplayed();
+			System.out.println("Name is Displayed");
+		} catch (Exception e) {
+			System.out.println("Name is Not Displayed");
+		}
+	}
+
+	public void errorNotification() throws Exception {
+
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//div[@class=\"el-notification__group is-with-icon\"]")).isDisplayed();
+		System.out.println("Error Notification is Displayed");
+	}
+
+	public void verifyFilterRelatedToNumber(String operation, String value) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebElement recordsXpath = wait.until(
+				ExpectedConditions.presenceOfElementLocated(By.xpath("//span[@class=\"el-pagination__total\"]")));
+		String TRecords = recordsXpath.getText();
+		String[] parts = TRecords.split(" ");
+		String records = parts[1];
+		int numberRecords = Integer.parseInt(records);
+		System.out.println(numberRecords);
+		switch (operation) {
+
+		case "equal":
+			String xpath = String.format("//div[3]/table[1]/tbody[1]/tr[%d]/td[%d]//div[1]/div[1]/div[1]//p[1]", 1, 2);
+			WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(10));
+			WebElement element = wait2.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+			String eleText = element.getText();
+			if (eleText == value) {
+				System.out.println("Applied Filter Successfully");
+			}
+		case "GreaterThan":
+
+			int number = Integer.parseInt(value);
+			int num = numberRecords - number;
+			for (int i = 1; i <= num; i++) {
+
+				String xpath1 = String.format("//div[3]/table[1]/tbody[1]/tr[%d]/td[%d]//div[1]/div[1]/div[1]//p[1]", i,
+						2);
+				WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(10));
+				WebElement element1 = wait1.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath1)));
+				String eleText1 = element1.getText();
+				int GivenValue = Integer.parseInt(eleText1);
+				if (GivenValue > number) {
+					return;
+				}
+				System.out.println("Applied Filter Successfully");
+			}
+		case "GreaterThanorEqual":
+			int number1 = Integer.parseInt(value);
+			int num1 = 36 - number1;
+			for (int i = 1; i <= num1; i++) {
+
+				String xpath1 = String.format("//div[3]/table[1]/tbody[1]/tr[%d]/td[%d]//div[1]/div[1]/div[1]//p[1]", i,
+						2);
+				WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(10));
+				WebElement element1 = wait1.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath1)));
+				String eleText1 = element1.getText();
+				int GivenValue = Integer.parseInt(eleText1);
+				if (GivenValue >= number1) {
+					return;
+				}
+				System.out.println("Applied Filter Successfully");
+			}
+		case "LessThan":
+			int number2 = Integer.parseInt(value);
+			for (int i = 1; i <= number2; i++) {
+
+				String xpath1 = String.format("//div[3]/table[1]/tbody[1]/tr[%d]/td[%d]//div[1]/div[1]/div[1]//p[1]", i,
+						2);
+				WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(10));
+				WebElement element1 = wait1.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath1)));
+				String eleText1 = element1.getText();
+				int GivenValue = Integer.parseInt(eleText1);
+				if (GivenValue < number2) {
+					return;
+				}
+				System.out.println("Applied Filter Successfully");
+			}
+
+		case "LessThanorEqual":
+			int number3 = Integer.parseInt(value);
+			for (int i = 1; i <= number3; i++) {
+
+				String xpath1 = String.format("//div[3]/table[1]/tbody[1]/tr[%d]/td[%d]//div[1]/div[1]/div[1]//p[1]", i,
+						2);
+				WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(10));
+				WebElement element1 = wait1.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath1)));
+				String eleText1 = element1.getText();
+				int GivenValue = Integer.parseInt(eleText1);
+				if (GivenValue <= number3) {
+					return;
+				}
+
+			}
+			System.out.println("Applied Filter Successfully");
+		}
+	}
+
 }

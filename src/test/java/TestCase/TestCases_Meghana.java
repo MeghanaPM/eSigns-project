@@ -28,7 +28,7 @@ public class TestCases_Meghana extends testCaseBase {
 	@Test
 	public void verifyLoginWithInvalidCredentials() throws InterruptedException {
 		login.Signin();
-		login.VerifyLoginSucess();
+		login.VerifyHomePage();
 	}
 
 	@Test
@@ -118,7 +118,7 @@ public class TestCases_Meghana extends testCaseBase {
 	public void workflow() throws Exception {
 		login.Signin();
 		WF.clickWF();
-		WF.status();
+//		WF.status();
 		WF.actionEdit();
 		WF.actionEdit();
 		

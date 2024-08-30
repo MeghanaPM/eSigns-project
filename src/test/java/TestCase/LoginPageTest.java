@@ -53,14 +53,14 @@ public class LoginPageTest extends testCaseBase {
 
 	public void verifyloginwithValidCredentials() throws InterruptedException {
 		login.SigninNSUI("jeevitha.patnana@nimbleaccounting.com","Nikki@1338");
-		login.VerifyLoginSucess();
+		login.VerifyHomePage();
 
 	}
 //
 //	@Test
 //	public void Document() throws InterruptedException {
 //		login.Signin();
-//		login.VerifyLoginSucess();
+//		login.VerifyHomePage();
 //		alldocuments.Createdocument();
 //		alldocuments.Validdocument();
 //	}
@@ -68,7 +68,7 @@ public class LoginPageTest extends testCaseBase {
 //	@Test
 //	public void Upload() throws Exception {
 //		login.Signin();
-//		login.VerifyLoginSucess();
+//		login.VerifyHomePage();
 //		alldocuments.Createdocument();
 //		alldocuments.Validdocument();
 //		uploaddocuments.Dropbox();
@@ -79,7 +79,7 @@ public class LoginPageTest extends testCaseBase {
 //	@Test
 //	public void AddingRecipients() throws Exception {
 //		login.Signin();
-//		login.VerifyLoginSucess();
+//		login.VerifyHomePage();
 //		alldocuments.Createdocument();
 //		alldocuments.Validdocument();
 //		uploaddocuments.Fileupload();
@@ -93,7 +93,7 @@ public class LoginPageTest extends testCaseBase {
 //	@Test
 //	public void Drag() throws Exception {
 //		login.Signin();
-//		login.VerifyLoginSucess();
+//		login.VerifyHomePage();
 //		alldocuments.Createdocument();
 //		alldocuments.Validdocument();
 //		uploaddocuments.Fileupload();
@@ -109,7 +109,7 @@ public class LoginPageTest extends testCaseBase {
 	@Test
 	public void Review() throws Exception {
 		login.Signin();
-		login.VerifyLoginSucess();
+		login.VerifyHomePage();
 		alldocuments.Createdocument();
 		alldocuments.Validdocument();
 		//uploaddocuments.Fileupload();

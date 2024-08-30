@@ -26,7 +26,7 @@
       <span class="top-banner-title-font">Test results</span>
       <button id="button" class="button">Switch Retro Theme</button> <!-- button -->
       <br/>
-      <span class="top-banner-font-1">1 suite, 1 failed test</span>
+      <span class="top-banner-font-1">1 suite</span>
     </div> <!-- top-banner-root -->
     <div class="navigator-root">
       <div class="navigator-suite-header">
@@ -40,7 +40,7 @@
         <div class="rounded-window">
           <div class="suite-header light-rounded-window-top">
             <a href="#" panel-name="suite-Default_suite" class="navigator-link">
-              <span class="suite-name border-failed">Default suite</span>
+              <span class="suite-name border-skipped">Default suite</span>
             </a> <!-- navigator-link -->
           </div> <!-- suite-header light-rounded-window-top -->
           <div class="navigator-suite-content">
@@ -51,7 +51,7 @@
               <ul>
                 <li>
                   <a href="#" panel-name="test-xml-Default_suite" class="navigator-link ">
-                    <span>C:\Users\meghana.pemma\AppData\Local\Temp\testng-eclipse--2046267604\testng-customsuite.xml</span>
+                    <span>C:\Users\meghana.pemma\AppData\Local\Temp\testng-eclipse-1883287414\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -93,21 +93,21 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">1 method, 1 failed,   </span>
+                    <span class="method-stats">1 method,  1 skipped,  </span>
                   </li>
                   <li>
-                    <span class="method-list-title failed">Failed methods</span>
-                    <span class="show-or-hide-methods failed">
-                      <a href="#" panel-name="suite-Default_suite" class="hide-methods failed suite-Default_suite"> (hide)</a> <!-- hide-methods failed suite-Default_suite -->
-                      <a href="#" panel-name="suite-Default_suite" class="show-methods failed suite-Default_suite"> (show)</a> <!-- show-methods failed suite-Default_suite -->
+                    <span class="method-list-title skipped">Skipped methods</span>
+                    <span class="show-or-hide-methods skipped">
+                      <a href="#" panel-name="suite-Default_suite" class="hide-methods skipped suite-Default_suite"> (hide)</a> <!-- hide-methods skipped suite-Default_suite -->
+                      <a href="#" panel-name="suite-Default_suite" class="show-methods skipped suite-Default_suite"> (show)</a> <!-- show-methods skipped suite-Default_suite -->
                     </span>
-                    <div class="method-list-content failed suite-Default_suite">
+                    <div class="method-list-content skipped suite-Default_suite">
                       <span>
-                        <img src="failed.png" width="3%"/>
-                        <a href="#" panel-name="suite-Default_suite" title="TestCase.TestCases_Prudhvi" class="method navigator-link" hash-for-method="workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted">workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted</a> <!-- method navigator-link -->
+                        <img src="skipped.png" width="3%"/>
+                        <a href="#" panel-name="suite-Default_suite" title="TestCase.filters" class="method navigator-link" hash-for-method="FilterTemplateNumberFieldLessThanorEqualOperator">FilterTemplateNumberFieldLessThanorEqualOperator</a> <!-- method navigator-link -->
                       </span>
                       <br/>
-                    </div> <!-- method-list-content failed suite-Default_suite -->
+                    </div> <!-- method-list-content skipped suite-Default_suite -->
                   </li>
                 </ul>
               </div> <!-- suite-section-content -->
@@ -119,32 +119,47 @@
     <div class="wrapper">
       <div class="main-panel-root">
         <div panel-name="suite-Default_suite" class="panel Default_suite">
-          <div class="suite-Default_suite-class-failed">
+          <div class="suite-Default_suite-class-skipped">
             <div class="main-panel-header rounded-window-top">
-              <img src="failed.png"/>
-              <span class="class-name">TestCase.TestCases_Prudhvi</span>
+              <img src="skipped.png"/>
+              <span class="class-name">TestCase.filters</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted">
-                  </a> <!-- workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted -->
-                  <span class="method-name">workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted</span>
-                  <div class="stack-trace">org.openqa.selenium.TimeoutException: Expected condition failed: waiting for element to be clickable: By.xpath: //span[@class=&apos;el-icon-arrow-down text-white&apos;] (tried for 60 second(s) with 500 milliseconds interval)
+                  <a name="FilterTemplateNumberFieldLessThanorEqualOperator">
+                  </a> <!-- FilterTemplateNumberFieldLessThanorEqualOperator -->
+                  <span class="method-name">FilterTemplateNumberFieldLessThanorEqualOperator</span>
+                  <div class="stack-trace">org.openqa.selenium.SessionNotCreatedException: Could not start a new session. Response code 500. Message: tab crashed
+  (Session info: chrome=128.0.6613.86) 
+Host info: host: &apos;HGT-LAP-359&apos;, ip: &apos;192.168.0.111&apos;
 Build info: version: &apos;4.21.0&apos;, revision: &apos;79ed462ef4&apos;
 System info: os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;21.0.1&apos;
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 126.0.6478.127, chrome: {chromedriverVersion: 126.0.6478.126 (d36ace6122e..., userDataDir: C:\Users\MEGHAN~1.PEM\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63064}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:63064/devtoo..., se:cdpVersion: 126.0.6478.127, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 148c6aeb5d39666d0aae73747bf6b633
-	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
-	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
-	at Pages.DocumentsScenarios.waitEle(DocumentsScenarios.java:30)
-	at Pages.DocumentsScenarios.Updateafterdocumentcompletionfromsettings(DocumentsScenarios.java:975)
-	at TestCase.TestCases_Prudhvi.workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted(TestCases_Prudhvi.java:2031)
+Command: [null, newSession {capabilities=[Capabilities {browserName: chrome, goog:chromeOptions: {args: [], binary: C:\Program Files\Google\Chr..., extensions: []}}]}]
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:114)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:75)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:61)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:162)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:518)
+	at org.openqa.selenium.remote.RemoteWebDriver.startSession(RemoteWebDriver.java:232)
+	at org.openqa.selenium.remote.RemoteWebDriver.&lt;init&gt;(RemoteWebDriver.java:161)
+	at org.openqa.selenium.chromium.ChromiumDriver.&lt;init&gt;(ChromiumDriver.java:114)
+	at org.openqa.selenium.chrome.ChromeDriver.&lt;init&gt;(ChromeDriver.java:88)
+	at org.openqa.selenium.chrome.ChromeDriver.&lt;init&gt;(ChromeDriver.java:83)
+	at org.openqa.selenium.chrome.ChromeDriver.&lt;init&gt;(ChromeDriver.java:72)
+	at TestBase.testCaseBase.setup(testCaseBase.java:40)
+	at TestCase.filters.Start(filters.java:18)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
-	at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
+	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:62)
+	at org.testng.internal.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:385)
+	at org.testng.internal.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:321)
+	at org.testng.internal.TestInvoker.runConfigMethods(TestInvoker.java:700)
+	at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:527)
 	at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
 	at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
 	at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
@@ -172,11 +187,11 @@ Session ID: 148c6aeb5d39666d0aae73747bf6b633
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
-          </div> <!-- suite-Default_suite-class-failed -->
+          </div> <!-- suite-Default_suite-class-skipped -->
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\meghana.pemma\AppData\Local\Temp\testng-eclipse--2046267604\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\meghana.pemma\AppData\Local\Temp\testng-eclipse-1883287414\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -185,11 +200,11 @@ Session ID: 148c6aeb5d39666d0aae73747bf6b633
 &lt;suite name=&quot;Default suite&quot; guice-stage=&quot;DEVELOPMENT&quot;&gt;
   &lt;test thread-count=&quot;5&quot; name=&quot;Default test&quot; verbose=&quot;2&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;TestCase.TestCases_Prudhvi&quot;&gt;
+      &lt;class name=&quot;TestCase.filters&quot;&gt;
         &lt;methods&gt;
-          &lt;include name=&quot;workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted&quot;/&gt;
+          &lt;include name=&quot;FilterTemplateNumberFieldLessThanorEqualOperator&quot;/&gt;
         &lt;/methods&gt;
-      &lt;/class&gt; &lt;!-- TestCase.TestCases_Prudhvi --&gt;
+      &lt;/class&gt; &lt;!-- TestCase.filters --&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Default test --&gt;
 &lt;/suite&gt; &lt;!-- Default suite --&gt;
@@ -231,14 +246,14 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted')
-data.setCell(0, 2, 'TestCase.TestCases_Prudhvi')
-data.setCell(0, 3, 73231);
+data.setCell(0, 1, 'FilterTemplateNumberFieldLessThanorEqualOperator')
+data.setCell(0, 2, 'TestCase.filters')
+data.setCell(0, 3, 0);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 1 minutes</span>
+              <span class="suite-total-time">Total running time: 0 ms</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -253,151 +268,45 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">70 ignored methods</span>
+            <span class="header-content">17 ignored methods</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="ignored-class-div">
-              <span class="ignored-class-name">TestCase.TestCases_Prudhvi</span>
+              <span class="ignored-class-name">TestCase.filters</span>
               <div class="ignored-methods-div">
-                <span class="ignored-method-name">uploadpdfFile</span>
+                <span class="ignored-method-name">FilterNumberFieldGreaterThanOperator</span>
                 <br/>
-                <span class="ignored-method-name">ValidRearrangingOrderCCndSigner</span>
+                <span class="ignored-method-name">FilterNumberFieldNotExistOperator</span>
                 <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementAllFillabelFeilds</span>
+                <span class="ignored-method-name">FilterNumberFieldLessThanorEqualOperator</span>
                 <br/>
-                <span class="ignored-method-name">validBlankDocRearrangeorderApproverSignerAndCC</span>
+                <span class="ignored-method-name">FilterGVNumberFieldLessThanOperator</span>
                 <br/>
-                <span class="ignored-method-name">uploadVedio</span>
+                <span class="ignored-method-name">FilterNumberFieldGreaterThanorEqualOperator</span>
                 <br/>
-                <span class="ignored-method-name">uploadDOCandTXT</span>
+                <span class="ignored-method-name">FilterTemplateNumberFieldLessThanOperator</span>
                 <br/>
-                <span class="ignored-method-name">EntityMappingIndividualEntityneverUpdate</span>
+                <span class="ignored-method-name">FilterNumberFieldLessThanOperator</span>
                 <br/>
-                <span class="ignored-method-name">AdvancedFieldsCompanyProfile</span>
+                <span class="ignored-method-name">FilterNumberFieldExistOperator</span>
                 <br/>
-                <span class="ignored-method-name">UpdateDataEntityMappingIndividualEntityneverUpdate</span>
+                <span class="ignored-method-name">FilterGVNumberFieldGreaterThanorEqualOperator</span>
                 <br/>
-                <span class="ignored-method-name">uploadPDFandTXT</span>
+                <span class="ignored-method-name">FilterNumberFieldRangeOperator</span>
                 <br/>
-                <span class="ignored-method-name">ReuploadingCompletedEsignsIDGeneratedDOC</span>
+                <span class="ignored-method-name">FilterTemplateFieldGreaterThanOperator</span>
                 <br/>
-                <span class="ignored-method-name">uploadPDFandPDF</span>
+                <span class="ignored-method-name">FilterGVFieldGreaterThanOperator</span>
                 <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementWithAutofill</span>
+                <span class="ignored-method-name">FilterGVFieldEqualOperator</span>
                 <br/>
-                <span class="ignored-method-name">BlankDocWithoutEnforcementWithoutAutofill</span>
+                <span class="ignored-method-name">FilterTemplateNumberFieldGreaterThanorEqualOperator</span>
                 <br/>
-                <span class="ignored-method-name">ValidDocscenariosGdrive</span>
+                <span class="ignored-method-name">FilterNumberFieldEqualOperator</span>
                 <br/>
-                <span class="ignored-method-name">uploadDOCandJPG</span>
+                <span class="ignored-method-name">FilterTemplateFieldEqualOperator</span>
                 <br/>
-                <span class="ignored-method-name">ValidBlankdocSignerndApprover</span>
-                <br/>
-                <span class="ignored-method-name">EntityMappingIndividualEntityUpdateExistedData</span>
-                <br/>
-                <span class="ignored-method-name">entityMappingUpdateWithoutParentGeneralEntity</span>
-                <br/>
-                <span class="ignored-method-name">uploadPDFandJPG</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementAutoFillOffWithoutSenderFields</span>
-                <br/>
-                <span class="ignored-method-name">ValidRearrangingOrderFirstApproverthenSigner</span>
-                <br/>
-                <span class="ignored-method-name">workflowIndividualEntityBasicFieldsNeverUpdate</span>
-                <br/>
-                <span class="ignored-method-name">ValidBlankDocSignerApproverAndMultipleCC</span>
-                <br/>
-                <span class="ignored-method-name">primaryFeilds</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocOtherSignerSenderSignerApprover</span>
-                <br/>
-                <span class="ignored-method-name">ValidSignerndApproverOnedrive</span>
-                <br/>
-                <span class="ignored-method-name">uploadDoc</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementAutofillOffWithSenderFielsNotFilled</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocRearrangeorderCCApproversigner</span>
-                <br/>
-                <span class="ignored-method-name">attachmentDownloads</span>
-                <br/>
-                <span class="ignored-method-name">contentFeildsCompanyProfile</span>
-                <br/>
-                <span class="ignored-method-name">ValidRearrangingOrderFirstOtherSignersandThenSender</span>
-                <br/>
-                <span class="ignored-method-name">ValidRearrangingOrderFirstOtherSignersndThenSenderOnedrive</span>
-                <br/>
-                <span class="ignored-method-name">uploadPNG</span>
-                <br/>
-                <span class="ignored-method-name">changeDocument</span>
-                <br/>
-                <span class="ignored-method-name">ValidBlankDocMultipleSigners</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocRearrangeorderCCSignerApprover</span>
-                <br/>
-                <span class="ignored-method-name">entityMappingUpdateWithParentGeneralEntity</span>
-                <br/>
-                <span class="ignored-method-name">uploadDocandDoc</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocApproverSenderSignerOtherSigner</span>
-                <br/>
-                <span class="ignored-method-name">uploadjpg</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocMulsignerApproverCC</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcement</span>
-                <br/>
-                <span class="ignored-method-name">uploadPDFandDOC</span>
-                <br/>
-                <span class="ignored-method-name">uploadPDFandDoc</span>
-                <br/>
-                <span class="ignored-method-name">ValidDocscenarioOnedrive</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementAutoFillOnWithSenderFielsAllFilled</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocOtherSignerApproverSenderSigner</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementAllContentFeilds</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementAutoFillOnWithSenderFielsNotFilled</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementWithoutAutofill</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithEnforcementAutoFillOnWithoutSenderFields</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocSenderSignerApproverOtherSigner</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithoEnforcementWithAutofill</span>
-                <br/>
-                <span class="ignored-method-name">BasicfeildsCompanyProfile</span>
-                <br/>
-                <span class="ignored-method-name">ValidOneDriveDocMultipleSigners</span>
-                <br/>
-                <span class="ignored-method-name">entityMappingUpdateWithParentIndividualEntity</span>
-                <br/>
-                <span class="ignored-method-name">BlankDocWithtEnforcement</span>
-                <br/>
-                <span class="ignored-method-name">validRearrangeorderApproverCCSigner</span>
-                <br/>
-                <span class="ignored-method-name">ValidBlankDocSignerApproverAndCCWithoutEnforceSignature</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocSignerMulApproverAndMulCC</span>
-                <br/>
-                <span class="ignored-method-name">EntityMappingIndividualEntityUpdateAfterDocumentCompletionFromSettings</span>
-                <br/>
-                <span class="ignored-method-name">uploadDOCandPNG</span>
-                <br/>
-                <span class="ignored-method-name">ValidDocScenarios</span>
-                <br/>
-                <span class="ignored-method-name">validBlankDocRearrangeorderSignerCCApprover</span>
-                <br/>
-                <span class="ignored-method-name">uploadTXT</span>
-                <br/>
-                <span class="ignored-method-name">ValidBlankDocSignerMulApproverAndCC</span>
-                <br/>
-                <span class="ignored-method-name">EntityMappingIndividualEntityUpdateafteruserfinishesthedocumentfromsettings</span>
-                <br/>
-                <span class="ignored-method-name">updateDataAndUpdateEntityafterUserFinishesTheDocumentfromsettings</span>
+                <span class="ignored-method-name">FilterGVNumberFieldLessThanorEqualOperator</span>
                 <br/>
               </div> <!-- ignored-methods-div -->
             </div> <!-- ignored-class-div -->
@@ -409,16 +318,16 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">TestCase.TestCases_Prudhvi</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">TestCase.filters</div> <!-- chronological-class-name -->
               <div class="configuration-method before">
+                <img src="failed.png">
+                </img>
                 <span class="method-name">Start</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-method before -->
               <div class="test-method">
-                <img src="failed.png">
-                </img>
-                <span class="method-name">workflowIndividualEntityBasicFieldsUpdateAfterDocCompleted</span>
-                <span class="method-start">17217 ms</span>
+                <span class="method-name">FilterTemplateNumberFieldLessThanorEqualOperator</span>
+                <span class="method-start">9601 ms</span>
               </div> <!-- test-method -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
